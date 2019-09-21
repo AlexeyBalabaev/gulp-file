@@ -1,0 +1,32 @@
+{
+  "name": "gulp-file",
+  "version": "1.0.0",
+  "description": "basic gulp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlexeyBalabaev/gulp-file.git"
+  },
+  "author": "Alexey Balabaev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AlexeyBalabaev/gulp-file/issues"
+  },
+  "homepage": "https://github.com/AlexeyBalabaev/gulp-file#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.7",
+    "gulp": "^4.0.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.0.2",
+    "gulp-uglify": "^3.0.2"
+  },
+  "dependencies": {
+    "magnific-popup": "^1.1.0",
+    "normalize.css": "^8.0.1",
+    "slick-carousel": "^1.8.1"
+  }
+}
