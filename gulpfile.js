@@ -1,51 +1,55 @@
-let gulp = require('gulp');
-let sass = require('gulp-sass');
-let browserSync = require('browser-sync');
-let uglify = require('gulp-uglify');
-let concat = require('gulp-concat');
-let rename = require('gulp-rename');
+const gulp = require('gulp');
+const sass = require('gulp-sass');
+const browserSync = require('browser-sync');
+const uglify = require('gulp-uglify');
+const concat = require('gulp-concat');
+const rename = require('gulp-rename');
+const autopref = require('gulp-autoprefixer');
 
-gulp.task('scss', function() {
-  return gulp.src("app/scss/**/*.scss")
-    .pipe(sass({outputStyle: 'compressed'}))
-    .pipe(rename({suffix: '.min'}))
-    .pipe(gulp.dest('app/css'))
+gulp.task('css', function() {
+  return gulp.src([
+    'src/css/main.css',
+    'src/css/media.css'
+  ])
+    .pipe(concat('style.css'))
+    .pipe(autopref({
+      // browsers: ['last 2 versions'],
+      cascade: false
+    }))
+    // .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('build/css'))
     .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('html', function() {
-  return gulp.src("app/*.html")
+  return gulp.src("src/*.html")
+    .pipe(gulp.dest('build/'))
     .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('script', function() {
-  return gulp.src("app/js/*.js")
-    .pipe(browserSync.reload({stream: true}));
-});
-
-gulp.task('js', function() {
   return gulp.src([
-    'node_modules/slick-carousel/slick/slick.js',
-    'node_modules/magnific-popup/dist/jquery.magnific-popup.js'
+    'src/js/lib.js',
+    'src/js/main.js'
   ])
-    .pipe(concat('libs.min.js'))
+    .pipe(concat('script.js'))
     .pipe(uglify())
-    .pipe(gulp.dest('app/js'))
-    .pipe(browserSync.reload({stream: true}))
+    .pipe(gulp.dest('build/js'))
+    .pipe(browserSync.reload({stream: true}));
 });
 
 gulp.task('browser-sync', function() {
   browserSync.init({
     server: {
-      baseDir: "./app/"
+      baseDir: "./src/"
     }
   });
 });
 
 gulp.task('watch', function() {
-  gulp.watch("app/scss/**/*.scss", gulp.parallel('scss'));
-  gulp.watch("app/*.html", gulp.parallel('html'));
-  gulp.watch("app/js/*.js", gulp.parallel('script'));
+  gulp.watch("src/scss/**/*.scss", gulp.parallel('scss'));
+  gulp.watch("src/*.html", gulp.parallel('html'));
+  gulp.watch("src/js/*.js", gulp.parallel('script'));
 });
 
-gulp.task("default", gulp.parallel('scss', 'js', 'browser-sync', 'watch'));
+gulp.task("default", gulp.parallel('css', 'script', 'browser-sync', 'watch'));
