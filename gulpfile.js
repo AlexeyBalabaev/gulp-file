@@ -1,6 +1,6 @@
 const gulp = require('gulp');
 const sass = require('gulp-sass');
-const browserSync = require('browser-sync');
+const browserSync = require('browser-sync').create();
 const uglify = require('gulp-uglify');
 const concat = require('gulp-concat');
 const rename = require('gulp-rename');
@@ -13,7 +13,7 @@ gulp.task('css', function() {
   ])
     .pipe(concat('style.css'))
     .pipe(autopref({
-      // browsers: ['last 2 versions'],
+      browsers: ['last 2 versions'],
       cascade: false
     }))
     // .pipe(rename({suffix: '.min'}))
@@ -33,7 +33,7 @@ gulp.task('script', function() {
     'src/js/main.js'
   ])
     .pipe(concat('script.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('build/js'))
     .pipe(browserSync.reload({stream: true}));
 });
@@ -47,7 +47,7 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('watch', function() {
-  gulp.watch("src/scss/**/*.scss", gulp.parallel('scss'));
+  gulp.watch("src/css/**/*.scss", gulp.parallel('scss'));
   gulp.watch("src/*.html", gulp.parallel('html'));
   gulp.watch("src/js/*.js", gulp.parallel('script'));
 });
